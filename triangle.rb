@@ -14,11 +14,12 @@
 #   about_triangle_project_2.rb
 #
 def triangle(a, b, c)
-	if a == b && b == c
+	foo = *[a, b, c]
+	if foo.uniq.size.eql?1
 		return :equilateral
-	elsif false
+	elsif foo.uniq.size.eql?2
 		return :isosceles
-	elsif false
+	elsif foo.uniq.size.eql?3
 		return :scalene
 	end
   # WRITE THIS CODE
