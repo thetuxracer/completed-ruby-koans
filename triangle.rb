@@ -14,11 +14,7 @@
 #   about_triangle_project_2.rb
 #
 def triangle(*foo)
-	#validate_arguments(foo)
-	raise TriangleError if foo.min <= 0
-	x,y,z = foo.sort
-	raise TriangleError if x + y <= z
-	#if foo[0].eql?0 raise(TriangleError) end
+	validate_arguments(foo)
 	if foo.uniq.size.eql?1
 		return :equilateral
 	elsif foo.uniq.size.eql?2
@@ -29,8 +25,10 @@ def triangle(*foo)
   # WRITE THIS CODE
 end
 
-def validate_arguments(args)
-	raise(TriangleError, "Foo")
+def validate_arguments(foo)
+	raise TriangleError if foo.min <= 0
+	x,y,z = foo.sort
+	raise TriangleError if x + y <= z
 end
 
 
