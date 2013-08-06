@@ -13,8 +13,12 @@
 # and
 #   about_triangle_project_2.rb
 #
-def triangle(a, b, c)
-	foo = *[a, b, c]
+def triangle(*foo)
+	#validate_arguments(foo)
+	raise TriangleError if foo.min <= 0
+	x,y,z = foo.sort
+	raise TriangleError if x + y <= z
+	#if foo[0].eql?0 raise(TriangleError) end
 	if foo.uniq.size.eql?1
 		return :equilateral
 	elsif foo.uniq.size.eql?2
@@ -24,6 +28,11 @@ def triangle(a, b, c)
 	end
   # WRITE THIS CODE
 end
+
+def validate_arguments(args)
+	raise(TriangleError, "Foo")
+end
+
 
 # Error class used in part 2.  No need to change this code.
 class TriangleError < StandardError
