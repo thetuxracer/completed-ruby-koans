@@ -31,7 +31,6 @@ def validate_arguments(foo)
 	raise TriangleError if x + y <= z
 end
 
-
 # Error class used in part 2.  No need to change this code.
 class TriangleError < StandardError
 end
