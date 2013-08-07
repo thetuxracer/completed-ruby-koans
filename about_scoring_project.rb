@@ -34,10 +34,11 @@ def score(dice)
   #puts dice
   if dice.empty?
     return 0
-  elsif dice.size == 1 and dice[0] == 5
-    return 50
-  elsif dice.size == 1 and dice[0] == 1
-    return 100
+  elsif dice.size == 1 #and dice[0] == 5
+    calculate_single dice
+    #return 50
+  #elsif dice.size == 1 and dice[0] == 1
+    #return 100
   elsif [1, 5] == dice.sort.uniq
     return dice.grep(1).size * 100 + dice.grep(5).size * 50
   elsif [2,3,4,6] == dice.sort
@@ -52,16 +53,22 @@ def score(dice)
     #return dice.uniq[0] * 100
     # use modulus for a single remaining 3
   elsif dice.count > 3
-    sum = calculate_triples dice.sort.shift(3)
-    puts '--'
-    puts sum
+    sum = calculate_triples dice.sort
+    remaining_die = dice.drop(3)
+    #puts '--'
+    puts remaining_die.is_a?(Array)
     #puts dice
     #dice.sort.shift(3)
   end
 end
 
+def calculate_single(dice)
+  return 100 if dice.first == 1
+  return 50 if dice.first == 5
+end
+
 def calculate_triples(dice)
-  puts dice
+  # puts dice
 
   # 1000 is unique value is 1
   # 100 * uniquel element if other than 1
