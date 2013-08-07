@@ -43,16 +43,19 @@ def score(dice)
   elsif ((dice.count == 3) && (dice.uniq.count == 1))
     calculate_triples dice
 
-  elsif dice.count > 3 
-    foo = dice.sort.take(3)
+  elsif dice.count > 3
+    #foo = dice.sort.take(3)
+    #if foo.uniq.count == 1
     sum = calculate_triples dice.sort.take(3)
+    #else sum = calculate_single dice
+    #end 
     remaining_die = dice.sort.drop(3)
     sum += calculate_single remaining_die.sort
     remaining_die_new = remaining_die.drop(1)
     sum += calculate_single remaining_die_new.sort
 
-  elsif [1, 5] == dice.sort.uniq
-    return dice.grep(1).size * 100 + dice.grep(5).size * 50
+  # elsif [1, 5] == dice.sort.uniq
+  #   return dice.grep(1).size * 100 + dice.grep(5).size * 50
   end
 end
 
@@ -65,6 +68,7 @@ end
 def calculate_triples(dice)
   return 1000 if [1] == dice.uniq
   return dice.uniq[0] * 100 if dice.uniq.size == 1
+  return dice.grep(1).size * 100 + dice.grep(5).size * 50 if [1, 5] == dice.sort.uniq
   return 0
   #[1] == dice.uniq ? 1000 : dice.uniq[0] * 100
 end
