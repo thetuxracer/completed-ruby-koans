@@ -33,19 +33,24 @@ def score(dice)
   sum = 0
   if dice.empty?
     return 0
-  elsif dice.size == 1 #and dice[0] == 5
+
+  elsif dice.size == 1
     calculate_single dice
-  elsif [2,3,4,6] == dice.sort
-    return 0
+
+  #elsif [2,3,4,6] == dice.sort
+    #return 0
+
   elsif ((dice.count == 3) && (dice.uniq.count == 1))
     calculate_triples dice
-  elsif dice.count > 3
+
+  elsif dice.count > 3 
     foo = dice.sort.take(3)
     sum = calculate_triples dice.sort.take(3)
     remaining_die = dice.sort.drop(3)
     sum += calculate_single remaining_die.sort
     remaining_die_new = remaining_die.drop(1)
     sum += calculate_single remaining_die_new.sort
+
   elsif [1, 5] == dice.sort.uniq
     return dice.grep(1).size * 100 + dice.grep(5).size * 50
   end
@@ -58,7 +63,10 @@ def calculate_single(dice)
 end
 
 def calculate_triples(dice)
-  [1] == dice.uniq ? 1000 : dice.uniq[0] * 100
+  return 1000 if [1] == dice.uniq
+  return dice.uniq[0] * 100 if dice.uniq.size == 1
+  return 0
+  #[1] == dice.uniq ? 1000 : dice.uniq[0] * 100
 end
 
 
@@ -107,12 +115,12 @@ class AboutScoringProject < Neo::Koan
     assert_equal 100, score([1])
   end
 
-  def test_score_of_multiple_1s_and_5s_is_the_sum_of_individual_scores
-    assert_equal 300, score([1,5,5,1])
-  end
-
   def test_score_of_single_2s_3s_4s_and_6s_are_zero
     assert_equal 0, score([2,3,4,6])
+  end
+
+  def test_score_of_multiple_1s_and_5s_is_the_sum_of_individual_scores
+    assert_equal 300, score([1,5,5,1])
   end
 
   def test_score_of_a_triple_1_is_1000
