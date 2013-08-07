@@ -30,48 +30,43 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 # Your goal is to write the score method.
 
 def score(dice)
-  #puts '---'
-  #puts dice
   if dice.empty?
     return 0
   elsif dice.size == 1 #and dice[0] == 5
     calculate_single dice
-    #return 50
-  #elsif dice.size == 1 and dice[0] == 1
-    #return 100
   elsif [1, 5] == dice.sort.uniq
     return dice.grep(1).size * 100 + dice.grep(5).size * 50
   elsif [2,3,4,6] == dice.sort
     return 0
   # Triples of 1
-  #elsif ((dice.count == 3) #&& ([1] == dice.uniq))
   elsif ((dice.count == 3) && (dice.uniq.count == 1))
     calculate_triples dice
-    #return 1000
-  # Triples
-  #elsif ((dice.count == 3) && (dice.uniq.count == 1))
-    #return dice.uniq[0] * 100
     # use modulus for a single remaining 3
   elsif dice.count > 3
     sum = calculate_triples dice.sort
-    remaining_die = dice.drop(3)
+    remaining_die = dice.sort.drop(3)
+    puts "remaining die after 3 : #{remaining_die}"
+    sum += calculate_single remaining_die.sort
+    puts "remaining die after 1st 1 : #{remaining_die}"
+    remaining_die_new = remaining_die.drop(1)
+    puts "remaining die after 2nd 1 : #{remaining_die_new}"
+    sum += calculate_single remaining_die_new.sort
     #puts '--'
-    puts remaining_die.is_a?(Array)
+    #puts remaining_die.is_a?(Array)
     #puts dice
     #dice.sort.shift(3)
   end
 end
 
 def calculate_single(dice)
+  puts dice
+  puts '--'
   return 100 if dice.first == 1
   return 50 if dice.first == 5
+  return 0
 end
 
 def calculate_triples(dice)
-  # puts dice
-
-  # 1000 is unique value is 1
-  # 100 * uniquel element if other than 1
   [1] == dice.uniq ? 1000 : dice.uniq[0] * 100
 end
 
@@ -130,15 +125,15 @@ class AboutScoringProject < Neo::Koan
   end
 
   def test_score_of_a_triple_1_is_1000
-    #assert_equal 1000, score([1,1,1])
+    assert_equal 1000, score([1,1,1])
   end
 
   def test_score_of_other_triples_is_100x
-    # assert_equal 200, score([2,2,2])
-    # assert_equal 300, score([3,3,3])
-    # assert_equal 400, score([4,4,4])
-    # assert_equal 500, score([5,5,5])
-    # assert_equal 600, score([6,6,6])
+    assert_equal 200, score([2,2,2])
+    assert_equal 300, score([3,3,3])
+    assert_equal 400, score([4,4,4])
+    assert_equal 500, score([5,5,5])
+    assert_equal 600, score([6,6,6])
   end
 
   def test_score_of_mixed_is_sum
