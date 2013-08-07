@@ -30,37 +30,28 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 # Your goal is to write the score method.
 
 def score(dice)
+  sum = 0
   if dice.empty?
     return 0
   elsif dice.size == 1 #and dice[0] == 5
     calculate_single dice
-  elsif [1, 5] == dice.sort.uniq
-    return dice.grep(1).size * 100 + dice.grep(5).size * 50
   elsif [2,3,4,6] == dice.sort
     return 0
-  # Triples of 1
   elsif ((dice.count == 3) && (dice.uniq.count == 1))
     calculate_triples dice
-    # use modulus for a single remaining 3
   elsif dice.count > 3
-    sum = calculate_triples dice.sort
+    foo = dice.sort.take(3)
+    sum = calculate_triples dice.sort.take(3)
     remaining_die = dice.sort.drop(3)
-    puts "remaining die after 3 : #{remaining_die}"
     sum += calculate_single remaining_die.sort
-    puts "remaining die after 1st 1 : #{remaining_die}"
     remaining_die_new = remaining_die.drop(1)
-    puts "remaining die after 2nd 1 : #{remaining_die_new}"
     sum += calculate_single remaining_die_new.sort
-    #puts '--'
-    #puts remaining_die.is_a?(Array)
-    #puts dice
-    #dice.sort.shift(3)
+  elsif [1, 5] == dice.sort.uniq
+    return dice.grep(1).size * 100 + dice.grep(5).size * 50
   end
 end
 
 def calculate_single(dice)
-  puts dice
-  puts '--'
   return 100 if dice.first == 1
   return 50 if dice.first == 5
   return 0
