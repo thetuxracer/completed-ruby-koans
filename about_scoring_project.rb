@@ -31,9 +31,9 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 
 def score(dice)
   foo = (1..6).collect do |roll|
-    puts "value of roll is #{roll}"
+    # puts "value of roll is #{roll}"
     roll_count = dice.count(roll)
-    puts "value of roll_count is #{roll_count}"
+    # puts "value of roll_count is #{roll_count}"
     case roll
       when 1 
         (1000 * (roll_count / 3) + 100 * (roll_count % 3))
